@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GlobalStyle from "./assets/styles/GlobalStyle";
+import Cadastro from "./components/Cadastro";
+import Login from "./components/Login";
+import Hoje from "./components/Hoje";
+import { useAuth } from "./contexts/AuthContext";
+import { useProgress } from "./contexts/ProgressContext";
+import Habitos from "./components/Habitos";
+import Historico from "./components/Historico";
 
 function App() {
+  const { user, setUser} = useAuth()
+  const {progress, setProgress} = useProgress()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle/>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/cadastro" element={<Cadastro/>}/>
+        <Route path="/hoje" element={<Hoje/>}/>
+        <Route path="/habitos" element={<Habitos/>}/>
+        <Route path="/historico" element={<Historico/>}/>
+      </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
