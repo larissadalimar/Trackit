@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext'
 
 export default function Login(){
     const navigate = useNavigate()
-    const {user, setUser} = useAuth()
+    const { setUser } = useAuth()
 
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState({
@@ -34,12 +34,9 @@ export default function Login(){
 
         promise.then((response) => {
             setUser(response.data)
-            console.log(response.data)
             navigate("/hoje")
             setLoading(false)
         })
-
-        console.log(user)
 
         promise.catch((error) => {
             console.log(error)

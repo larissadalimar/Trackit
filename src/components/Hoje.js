@@ -33,7 +33,7 @@ export default function Hoje(){
         })
 
         promise.catch((error) => console.log(error))
-    }, [])
+    }, [tasks])
     
     return(
         <>
@@ -44,9 +44,7 @@ export default function Hoje(){
                     <h3> {progress > 0? `${progress} dos hábitos concluídos`: "Nenhum hábito concluído ainda"}</h3>
                 </TitleStyle>
                 <TarefasStyle className="tasks">
-                    <TarefaHoje/>
-                    <TarefaHoje/>
-                    <TarefaHoje/>
+                    {tasks?.map((task) => <TarefaHoje task={task}/>)}
                 </TarefasStyle>
             </ContentStyle>
             <Menu/>
