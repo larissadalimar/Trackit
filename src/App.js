@@ -10,7 +10,7 @@ import Historico from "./components/Historico";
 
 function App() {
   const { user, setUser} = useAuth()
-  const {progress, setProgress} = useProgress()
+  const { progress, setProgress } =  useProgress()
 
   return (
     <>

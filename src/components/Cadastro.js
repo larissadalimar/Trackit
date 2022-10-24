@@ -49,22 +49,22 @@ export default function Cadastro(){
             <img src={logo}  alt="logo"/> 
             <FormStyle className="sign-up-form" onSubmit={cadastrar} loading={loading}>
                 <div>
-                    <input type="email" name='email' placeholder="email" required disabled={loading} value={form.email} onChange={handleForm}/>
+                    <input data-identifier="input-email" type="email" name='email' placeholder="email" required disabled={loading} value={form.email} onChange={handleForm}/>
                 </div>
                 <div>
-                    <input type="password" name='password' placeholder="senha" required disabled={loading} value={form.password} onChange={handleForm}/>
+                    <input data-identifier="input-password" type="password" name='password' placeholder="senha" required disabled={loading} value={form.password} onChange={handleForm}/>
                 </div>
                 <div>
-                    <input type="text" name='name' placeholder="nome" required disabled={loading} value={form.name} onChange={handleForm}/>
+                    <input data-identifier="input-name" type="text" name='name' placeholder="nome" required disabled={loading} value={form.name} onChange={handleForm}/>
                 </div>
                 <div>
-                    <input type="url" name='image' placeholder="foto" required disabled={loading} value={form.image} onChange={handleForm}/>
+                    <input data-identifier="input-photo" type="url" name='image' placeholder="foto" required disabled={loading} value={form.image} onChange={handleForm}/>
                 </div>
                 <div>
                     <button type="submit" disabled={loading}>{loading? <ThreeDots height={80} color={"white"}/>: "Cadastrar"}</button>
                 </div>
             </FormStyle>
-            <Link to={loading? null: "/"}>
+            <Link data-identifier="back-to-login-action" to={loading? null: "/"}>
                     <div>
                         <h2>Já tem uma conta? Faça login!</h2>
                     </div>

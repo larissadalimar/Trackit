@@ -7,7 +7,7 @@ export default function Topo(){
     return(
         <NavbarStyle className="navbar">
                 <h1>TrackIt</h1>
-                <img src={user? user.image : null} alt="user"/>
+                <img data-identifier="avatar" src={user? user.image : null} alt="user"/>
         </NavbarStyle>
     )
 }

@@ -12,7 +12,7 @@ import { ContentStyle, TitleStyle, TarefasStyle } from "../assets/styles/Content
 export default function Hoje(){
 
     const { user } = useAuth()
-    const { progress, setProgress } = useProgress()
+    const { progress, setProgress } =  useProgress()
 
     const [tasks, setTasks] = useState([]);
     const today = dayjs()
@@ -26,10 +26,12 @@ export default function Hoje(){
         }} )
 
         promise.then((response) => {
-            console.log(response.data)
             setTasks(response.data)
             let done = response.data.filter((task) => task.done === true)
-            setProgress(done.length)
+            if(response.data.length > 0)
+                setProgress(done.length/response.data.length)
+            else
+                setProgress(0)
         })
 
         promise.catch((error) => console.log(error))
@@ -40,8 +42,8 @@ export default function Hoje(){
             <Topo/>
             <ContentStyle className="content">
                 <TitleStyle className="content-title" progress={progress}>
-                    <h1>{dias[today.get('day')]}, {today.get('date')}/{today.get('month') < 10? "0" + today.get('month'): today.get('month')}</h1>
-                    <h3> {progress > 0? `${progress} dos hábitos concluídos`: "Nenhum hábito concluído ainda"}</h3>
+                    <h1 data-identifier="today-infos">{dias[today.get('day')]}, {today.get('date')}/{today.get('month') < 10? "0" + today.get('month'): today.get('month')}</h1>
+                    <h3 data-identifier="today-infos"> {progress > 0? `${Math.round((progress)*100)}% dos hábitos concluídos`: "Nenhum hábito concluído ainda"}</h3>
                 </TitleStyle>
                 <TarefasStyle className="tasks">
                     {tasks?.map((task) => <TarefaHoje task={task}/>)}

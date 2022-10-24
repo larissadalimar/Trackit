@@ -30,13 +30,13 @@ export default function TarefaHoje({ task }){
     }
 
     return (
-        <TarefaStyle className="task" done={done}>
-            <div>
+        <TarefaStyle className="task" done={done} sequence={(task.currentSequence === task.highestSequence) && task.currentSequence > 0}>
+            <div data-identifier="today-infos" >
                 <h2>{task.name}</h2>
-                <p>Sequência atual: <span> {task.currentSequence} dias</span></p>
-                <p>Seu Recorde: <span> {task.highestSequence} dias</span></p>
+                <p>Sequência atual: <span className="current-sequence"> {task.currentSequence} dias</span></p>
+                <p>Seu Recorde: <span className="highest-sequence"> {task.highestSequence} dias</span></p>
             </div>
-            <BsFillCheckSquareFill className="icon-check" onClick={() => task.done? uncheckTask(task.id): checkTask(task.id)}/>
+            <BsFillCheckSquareFill data-identifier="done-habit-btn" className="icon-check" onClick={() => task.done? uncheckTask(task.id): checkTask(task.id)}/>
         </TarefaStyle>
     )
 }
@@ -70,5 +70,13 @@ const TarefaStyle = styled.div`
         height: 70px;
 
         color: ${props => props.done? "#8FC549" : "#EBEBEB"};
+    }
+
+    .current-sequence{
+        color: ${props => props.done || props.sequence? "#8FC549" : "#666666"};
+    }
+
+    .highest-sequence{
+        color: ${props => props.sequence? "#8FC549" : "#666666"}
     }
 `

@@ -11,7 +11,7 @@ const FormStyle = styled.form`
         font-family: 'Lexend Deca';
         font-weight: 400;
         font-size: 20px;
-        color: ${props => props.loading? "#AFAFAF": "#DBDBDB"};
+        color: ${props => props.loading? "#AFAFAF": "#666666"};
 
         border: 1px solid #D5D5D5;
         border-radius: 5px;
@@ -53,7 +53,6 @@ const FormStyle = styled.form`
 
     .new-habit-name{
         width: 95%;
-        color: #666666;
     }
 
     .new-habit-name::placeholder {

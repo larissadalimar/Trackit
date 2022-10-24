@@ -50,16 +50,16 @@ export default function Login(){
                 <img src={logo} alt='logo'/>
                 <FormStyle className="login-form" onSubmit={logar} loading={loading}>
                         <div>
-                            <input type="email" name='email' placeholder="email" required disabled={loading} value={form.email} onChange={handleForm}/>
+                            <input data-identifier="input-email" type="email" name='email' placeholder="email" required disabled={loading} value={form.email} onChange={handleForm}/>
                         </div>
                         <div>
-                            <input type="password" name='password' placeholder="senha" required disabled={loading} value={form.password} onChange={handleForm}/>
+                            <input data-identifier="input-password" type="password" name='password' placeholder="senha" required disabled={loading} value={form.password} onChange={handleForm}/>
                         </div>
                         <div>
-                            <button type="submit" disabled={loading}>{loading? <ThreeDots height={80} color={"white"}/>: "Entrar"}</button>
+                            <button data-identifier="login-btn" type="submit" disabled={loading}>{loading? <ThreeDots height={80} color={"white"}/>: "Entrar"}</button>
                         </div>
                 </FormStyle>
-                <Link to={loading? null: "/cadastro"} >
+                <Link data-identifier="sign-up-action" to={loading? null: "/cadastro"} >
                     <div>
                         <h2>Não tem uma conta? Cadastre-se!</h2>
                     </div>

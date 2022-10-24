@@ -7,12 +7,15 @@ import { ContentStyle, TitleStyle, TarefasStyle } from "../assets/styles/Content
 import { BsFillPlusSquareFill, BsTrash } from "react-icons/bs";
 import styled from "styled-components"
 import FormStyle from "../assets/styles/FormStyle"
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function Habitos(){
 
     const { user } = useAuth()
     const [tasks, setTasks] = useState([])
-    const [newTask, setNewTask] = useState({})
+    const [newTask, setNewTask] = useState({name: '', days: []})
+    const [loading, setLoading] = useState(false)
+    const [openForm, setOpenForm] = useState(false)
 
     const dias = ['D','S', 'T','Q', 'Q','S','S']
 
@@ -58,40 +61,48 @@ export default function Habitos(){
 
     }
 
-    function leaveForm(){
-        setNewTask({})
-    }
 
     function createNewHabit(e){
 
         e.preventDefault()
-        console.log(newTask)
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newTask, 
         { headers: {
             'Authorization': `Bearer ${user.token}`
         }})
 
+        setLoading(true)
+
         promise.then((response) => {
             console.log(response)
-            setTasks(...tasks, response)
-            setNewTask({})
+            setTasks(...tasks, response.data)
+            setNewTask({name: '', days: []})
+            setLoading(false)
+            setOpenForm(false)
         })
 
-        promise.catch((error) => console.log(error))
+        promise.catch((error) => {
+            setLoading(false)
+            alert(error.response.data.message)
+        })
     }
 
     function deleteHabit(id){
 
-        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, 
-        { headers: {
-            'Authorization': `Bearer ${user.token}`
-        }})
+        let result = window.confirm("Você deseja mesmo apagar este hábito?")
 
-        promise.then((response) => console.log(response))
+       if(result){
+            const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, 
+            { headers: {
+                'Authorization': `Bearer ${user.token}`
+            }})
 
-        promise.catch((error) => console.log(error))
+            promise.then((response) => console.log(response))
+
+            promise.catch((error) => console.log(error))
+        }
     }
+
 
     return(
         <>
@@ -101,22 +112,18 @@ export default function Habitos(){
                     <TitleStyle className="my-habits">
                         <h1>Meus hábitos</h1>
                     </TitleStyle>
-                    <BsFillPlusSquareFill className="create-habit-icon" onClick={() => 
-                        {setNewTask({
-                            name: '',
-                            days: []
-                        })}}
+                    <BsFillPlusSquareFill className="create-habit-icon" data-identifier="create-habit-btn" onClick={() => setOpenForm(true)}
                     />
                 </MyHabitsTitle>
                 <TarefasStyle className="habits">
-                    {(Object.keys(newTask).length) > 0? 
+                    {openForm? 
                         <NewHabitStyle>
-                            <FormStyle onSubmit={createNewHabit} className="new-habit-form">
-                                <input className="new-habit-name" type="text" name='name' placeholder="nome do hábito" required  value={newTask.name} onChange={handleNewTask} />
-                                <div> {dias.map((dia, index) => <DiaCheckbox className="dia-checkbox" selected={newTask.days?.includes(index)} onClick={() => atualizaDias(index)}>{dia}</DiaCheckbox>)} </div>
+                            <FormStyle onSubmit={createNewHabit} className="new-habit-form" loading={loading}>
+                                <input className="new-habit-name" data-identifier="input-habit-name" type="text" name='name' placeholder="nome do hábito" required  value={newTask.name} onChange={handleNewTask} disabled={loading}/>
+                                <div> {dias.map((dia, index) => <DiaCheckbox className="dia-checkbox" data-identifier="week-day-btn" selected={newTask.days?.includes(index)} onClick={() => {if(!loading) atualizaDias(index)}}>{dia}</DiaCheckbox>)} </div>
                                 <div className="buttons">
-                                    <button className="cancel-new-habit" onClick={leaveForm}>Cancelar</button>
-                                    <button className="save-new-habit" type="submit">Salvar</button>
+                                    <button className="cancel-new-habit" data-identifier="cancel-habit-create-btn" onClick={() => setOpenForm(false)} disabled={loading}>Cancelar</button>
+                                    <button className="save-new-habit" data-identifier="save-habit-create-btn" type="submit" disabled={loading}>{loading? <ThreeDots height={10} color={"white"}/>: "Salvar"}</button>
                                 </div>
                             </FormStyle>
                         </NewHabitStyle>
@@ -127,10 +134,10 @@ export default function Habitos(){
                     {tasks.length > 0? 
                     tasks.map((task) => 
                     <HabitStyle className="habit">
-                       <div> <h1>{task.name}</h1> <BsTrash className="delete-habit" onClick={() => deleteHabit(task.id)}/></div> 
+                       <div> <h1 data-identifier="habit-name">{task.name}</h1> <BsTrash className="delete-habit" data-identifier="delete-habit-btn" onClick={() => deleteHabit(task.id)}/></div> 
                         <div className="days"> {dias.map((dia, index) => <DiaCheckbox selected={task.days?.includes(index)}>{dia}</DiaCheckbox>)} </div>
                     </HabitStyle>): 
-                    <h2 className="no-habits-title">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>}
+                    <h2 className="no-habits-title" data-identifier="no-habit-message">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>}
                 </TarefasStyle>
             </ContentStyle>
             <Menu/>

@@ -10,7 +10,7 @@ export default function Menu(){
     return(
         <MenuStyle className="menu">
                 
-                    <Link to={"/habitos"}>
+                    <Link data-identifier="habit-page-action" to={"/habitos"}>
                         <div>
                             <button>Hábitos</button>
                         </div>
@@ -18,14 +18,14 @@ export default function Menu(){
                     <Link to={"/hoje"}>
                         <div className="today-progress-bar">
                             <CircularProgressbar
-                                value={progress}
+                                value={progress*100}
                                 text="Hoje"
                                 background
                                 backgroundPadding={6}
                             />
                         </div>
                     </Link>
-                    <Link to={"/historico"}>
+                    <Link data-identifier="historic-page-action" to={"/historico"}>
                         <div>
                             <button>Histórico</button>
                         </div>
@@ -72,14 +72,14 @@ const MenuStyle = styled.div`
 
     .CircularProgressbar-path {
         stroke: white;
-      }
-      .CircularProgressbar-trail {
+    }
+    .CircularProgressbar-trail {
         stroke: transparent;
-      }
-      .CircularProgressbar-text {
+    }
+    .CircularProgressbar-text {
         fill: white;
-      }
-      .CircularProgressbar-background {
+    }
+    .CircularProgressbar-background {
         fill: #52B6FF;
-      }
+    }
 `
