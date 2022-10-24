@@ -18,12 +18,15 @@ const FormStyle = styled.form`
 
         margin-bottom: 6px;
         background-color: ${props => props.loading?  "#F2F2F2": "white"};
+        padding: 0 0 0 11px;
+        box-sizing: border-box;
     }
 
     input:focus {
         box-shadow: 0 0 0 0;
         outline: 0;
     } 
+
 
     button {
 
@@ -55,7 +58,7 @@ const FormStyle = styled.form`
         width: 95%;
     }
 
-    .new-habit-name::placeholder {
+    input::placeholder {
         color: #DBDBDB;
     }
 

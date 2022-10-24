@@ -8,11 +8,14 @@ import TarefaHoje from "./TarefaHoje"
 import 'react-circular-progressbar/dist/styles.css'
 import Menu from "./Menu"
 import { ContentStyle, TitleStyle, TarefasStyle } from "../assets/styles/ContentStyles"
+import { Oval } from "react-loader-spinner"
 
 export default function Hoje(){
 
     const { user } = useAuth()
     const { progress, setProgress } =  useProgress()
+
+    const [loadingPage, setLoadingPage] = useState(true)
 
     const [tasks, setTasks] = useState([]);
     const today = dayjs()
@@ -32,9 +35,14 @@ export default function Hoje(){
                 setProgress(done.length/response.data.length)
             else
                 setProgress(0)
+            
+            setLoadingPage(false)
         })
 
-        promise.catch((error) => console.log(error))
+        promise.catch((error) => {
+            console.log(error)
+            setLoadingPage(false)
+        })
     }, [tasks])
     
     return(
@@ -46,8 +54,11 @@ export default function Hoje(){
                     <h3 data-identifier="today-infos"> {progress > 0? `${Math.round((progress)*100)}% dos hábitos concluídos`: "Nenhum hábito concluído ainda"}</h3>
                 </TitleStyle>
                 <TarefasStyle className="tasks">
-                    {tasks?.map((task) => <TarefaHoje task={task}/>)}
+                    {loadingPage? <div className="div-oval"><Oval height={80} width={80} color="#52B6FF" secondaryColor="#52B6FF"/></div> :
+                        (tasks?.map((task) => <TarefaHoje task={task}/>))
+                    }
                 </TarefasStyle>
+                
             </ContentStyle>
             <Menu/>
         </>

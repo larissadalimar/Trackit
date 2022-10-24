@@ -7,7 +7,7 @@ import { ContentStyle, TitleStyle, TarefasStyle } from "../assets/styles/Content
 import { BsFillPlusSquareFill, BsTrash } from "react-icons/bs";
 import styled from "styled-components"
 import FormStyle from "../assets/styles/FormStyle"
-import { ThreeDots } from 'react-loader-spinner'
+import { Oval, ThreeDots } from 'react-loader-spinner'
 
 export default function Habitos(){
 
@@ -16,6 +16,8 @@ export default function Habitos(){
     const [newTask, setNewTask] = useState({name: '', days: []})
     const [loading, setLoading] = useState(false)
     const [openForm, setOpenForm] = useState(false)
+
+    const [loadingPage, setLoadingPage] = useState(true)
 
     const dias = ['D','S', 'T','Q', 'Q','S','S']
 
@@ -26,12 +28,17 @@ export default function Habitos(){
             'Authorization': `Bearer ${user.token}`
         }} )
 
+
         promise.then((response) => {
             console.log(response.data)
             setTasks(response.data)
+            setLoadingPage(false)
         })
 
-        promise.catch((error) => console.log(error))
+        promise.catch((error) => {
+            console.log(error)
+            setLoadingPage(false)
+        })
     }, [tasks])
 
     function handleNewTask(e){
@@ -131,13 +138,15 @@ export default function Habitos(){
                         : 
                         <></>
                     }
-                    {tasks.length > 0? 
+                    {loadingPage? <div className="div-oval"><Oval height={80} width={80} color="#52B6FF" secondaryColor="#52B6FF"/></div> :
+                    (tasks.length > 0? 
                     tasks.map((task) => 
                     <HabitStyle className="habit">
-                       <div> <h1 data-identifier="habit-name">{task.name}</h1> <BsTrash className="delete-habit" data-identifier="delete-habit-btn" onClick={() => deleteHabit(task.id)}/></div> 
+                       <div> <div className="task-name"><h1 data-identifier="habit-name">{task.name}</h1></div> <BsTrash className="delete-habit" data-identifier="delete-habit-btn" onClick={() => deleteHabit(task.id)}/></div> 
                         <div className="days"> {dias.map((dia, index) => <DiaCheckbox selected={task.days?.includes(index)}>{dia}</DiaCheckbox>)} </div>
                     </HabitStyle>): 
-                    <h2 className="no-habits-title" data-identifier="no-habit-message">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>}
+                    <h2 className="no-habits-title" data-identifier="no-habit-message">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h2>
+                    )}
                 </TarefasStyle>
             </ContentStyle>
             <Menu/>
@@ -191,7 +200,10 @@ const DiaCheckbox = styled.div`
 
 const HabitStyle = styled.div`
     width: 100%;
-    height: 91px;
+    min-height: 91px;
+    height: auto;
+    padding: 15px;
+    box-sizing: border-box;
 
     background: #FFFFFF;
     border-radius: 5px;
@@ -204,21 +216,32 @@ const HabitStyle = styled.div`
     h1 {
         font-size: 20px;
         color: #666666;
+        flex-wrap: wrap;
     }
 
     .days {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-left: 15px;
+        
+        margin-top: 10px;
     }
 
     > div {
-        width: 92%;
-        margin-left: 15px;
+        width: 100%;
         display:flex;
         justify-content: space-between;
         align-items: center;
+        word-wrap: break-word;
+    }
+
+    .task-name {
+        width: 90%;
+    }
+
+    .delete-habit{
+        width: 16px;
+        height: 16px;
     }
 
     margin-bottom: 10px;

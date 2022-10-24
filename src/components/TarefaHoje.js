@@ -44,13 +44,18 @@ export default function TarefaHoje({ task }){
 const TarefaStyle = styled.div`
     border-radius: 5px;
     width: 100%;
-    height: 94px;
+    min-height: 94px;
+    height: auto;
     background-color: white;
     margin-bottom: 10px;
     color: #666666;
     padding: 13px;
     box-sizing: border-box;
 
+    > div {
+        flex-wrap: wrap;
+        width: 80%;
+    }
 
     display: flex;
     justify-content: space-between;

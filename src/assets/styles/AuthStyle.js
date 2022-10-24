@@ -27,9 +27,6 @@ const AuthStyle = styled.div`
             margin-top: 25px;
         }
 
-        input::placeholder{
-           margin-left: 10px;
-        }
     }
 
     width: 100%;

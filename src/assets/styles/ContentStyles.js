@@ -3,10 +3,10 @@ import styled from "styled-components"
 export const ContentStyle = styled.div`
 
     background: #F2F2F2;
-    position: absolute;
-    top: 70px;
+    margin: 70px 0 70px 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    min-height: 80vh;
     display: flex;
     justify-content: start;
     align-items: flex-start;
@@ -48,4 +48,12 @@ export const TarefasStyle = styled.div`
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
+
+    .div-oval {
+        width: 100%;
+        margin-top: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `

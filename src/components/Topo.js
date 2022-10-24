@@ -14,6 +14,7 @@ export default function Topo(){
 
 const NavbarStyle = styled.nav`
     position: fixed;
+    top: 0;
     height: 70px;
     background-color: #126BA5;
 
